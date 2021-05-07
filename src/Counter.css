@@ -1,0 +1,11 @@
+.Counter {
+    width: 12rem;
+    user-select: none;
+    cursor: pointer;
+    font-size: 2rem;
+    padding: 1rem;
+    color: white;
+    background-color: transparent;
+    border: 1px solid #61dafb;;
+    border-radius: 1rem;
+}
