@@ -1,0 +1,42 @@
+<!-- Use JSX and state -->
+<body>
+<link rel="stylesheet" href="my-style.css">
+<script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+<script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+<div id="root"></div>
+<script type="text/babel">
+    const root = document.getElementById('root');
+
+    // Vanilla javascript
+    let clickCount = 0;
+    const el = document.createElement('div');
+    el.className = 'container'
+    const hello = document.createElement('span');
+    hello.textContent = 'Hello';
+    const world = document.createElement('span');
+    world.textContent = ' World!';
+    const count = document.createElement('span');
+    count.textContent = ' ' + clickCount;
+    el.appendChild(hello);
+    el.appendChild(world);
+    el.appendChild(count);
+    el.addEventListener('click', function () {
+        clickCount = clickCount + 1;
+        count.textContent = ' ' + clickCount;
+    })
+    root.appendChild(el);
+
+    // React javascript
+    // Check out https://babeljs.io/repl
+    // const El = (props) => {
+    //     const [clickCount, setClickCount] = React.useState(props.initialCount || 0);
+    //     return (
+    //         <div className="container" onClick={() => setClickCount(clickCount + 1)}>
+    //             <span>Hello</span> <span>JSX</span> <span>{clickCount}</span>
+    //         </div>
+    //     );
+    // }
+    // ReactDOM.render(<El initialCount={0}/>, root)
+</script>
+</body>
