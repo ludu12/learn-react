@@ -1,0 +1,14 @@
+.Launch {
+    padding: 2rem;
+    text-align: justify;
+}
+
+.Launch > div {
+    padding-top: 1rem;
+    display: flex
+}
+
+.Details {
+    padding: 1rem;
+    font-size: 14px;
+}

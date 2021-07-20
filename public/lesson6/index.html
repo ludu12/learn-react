@@ -1,0 +1,87 @@
+<!-- Fetch from API -->
+
+<body>
+    <link rel="stylesheet" href="../my-style.css">
+    <script crossorigin src="https://unpkg.com/react@17.0.2/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+    <div id="root"></div>
+    <script type="text/babel">
+        const graphqlQuery = "{\n  launchesPast(limit: 10) {\n    mission_name\n    launch_date_local\n    launch_site {\n      site_name_long\n    }\n    rocket {\n      rocket_name\n    }\n    links {\n      flickr_images\n    }\n  }\n}\n"
+
+        const fetchSpaceX = async () => {
+            const response = await fetch('https://api.spacex.land/graphql', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ query: graphqlQuery })
+            });
+
+            return response.json();
+        }
+
+        const root = document.getElementById('root');
+
+        // Vanilla javascript
+        function createNode(element) {
+            return document.createElement(element);
+        }
+
+        function append(parent, el) {
+            return parent.appendChild(el);
+        }
+
+        const el = createNode('div');
+        const header = createNode('h1');
+        const subheader = createNode('div');
+        const list = createNode('ol');
+
+        header.textContent = 'SpaceX Past 10 Launches'
+        subheader.innerHTML = '<i>Check out the graphql playground <a href="https://api.spacex.land/graphql/">here</a>!</i>'
+
+        append(el, header);
+        append(el, subheader);
+        append(el, list);
+
+        fetchSpaceX().then(response => {
+            const { launchesPast } = response.data;
+            return launchesPast.map((launch) => {
+                let li = createNode('li');
+                let span = createNode('span');
+                span.innerHTML = `${new Date(launch.launch_date_local).toLocaleDateString()} - ${launch.mission_name}`;
+                append(li, span);
+                append(list, li);
+            })
+        });
+        root.appendChild(el);
+
+        // React javascript
+        // Check out https://babeljs.io/repl
+        // const El = (props) => {
+        //     const [launches, setLaunches] = React.useState([]);
+
+        //     React.useEffect(() => {
+        //         fetchSpaceX().then(response => {
+        //             const { launchesPast } = response.data;
+        //             setLaunches(launchesPast);
+        //         })
+        //     }, [])
+
+        //     return (
+        //         <div>
+        //             <h1>SpaceX Past 10 Launches</h1>
+        //             <div>
+        //                 <i>Check out the graphql playground <a href="https://api.spacex.land/graphql/">here</a>!</i>
+        //             </div>
+        //             <ol>
+        //                 {
+        //                     launches.map((launch,i) => {
+        //                         return <li key={i}><span>{`${new Date(launch.launch_date_local).toLocaleDateString()} - ${launch.mission_name}`}</span></li>;
+        //                     })
+        //                 }
+        //             </ol>
+        //         </div>
+        //     );
+        // }
+        // ReactDOM.render(<El />, root)
+    </script>
+</body>
